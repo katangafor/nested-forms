@@ -1,33 +1,24 @@
 {
-  "name": "rollup-typescript-babel",
-  "version": "1.0.0",
-  "description": "A sample setup using Rollup and Babel to build TypeScript code, and using TypeScript for type-checking.",
+  "name": "nested-forms",
+  "version": "1.0.6",
+  "description": "",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch",
-    "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "rollup -c",
-    "build": "npm run build:types && npm run build:js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "main": "dist/rollup-plugin-babel.cjs.js",
-  "module": "dist/rollup-plugin-babel.esm.js",
-  "browser": "dist/rollup-plugin-babel.iife.js",
-  "types": "dist/types/index.d.ts",
-  "author": {
-    "name": "Oleksandr T.",
-    "email": "oleksandr.tarasiuk@outlook.com"
-  },
+  "author": "Johnny Hane",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "7.16.0",
-    "@babel/plugin-proposal-class-properties": "7.16.0",
-    "@babel/plugin-proposal-object-rest-spread": "7.16.0",
-    "@babel/preset-env": "7.16.0",
-    "@babel/preset-typescript": "7.16.0",
-    "rollup": "2.60.0",
-    "@rollup/plugin-babel": "5.3.0",
-    "@rollup/plugin-commonjs": "21.0.1",
-    "@rollup/plugin-node-resolve": "13.0.6",
-    "typescript": "4.6.3"
+    "@types/react": "^18.0.5",
+    "@types/styled-components": "^5.1.25",
+    "@types/uuid": "^8.3.4"
+  },
+  "dependencies": {
+    "react": "^18.0.0",
+    "react-select": "^5.3.0",
+    "react-tooltip": "^4.2.21",
+    "styled-components": "^5.3.5",
+    "uuid": "^8.3.2"
   }
 }
