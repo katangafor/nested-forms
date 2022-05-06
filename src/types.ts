@@ -132,7 +132,7 @@ export interface UpdateNumberFieldArgs extends WizUpdateArgs {
 }
 
 export interface UpdateSelectFieldArgs extends WizUpdateArgs {
-  newValue: any;
+  newValue: { label: string, value: any };
 }
 
 export interface UpdateBooleanFieldArgs extends WizUpdateArgs {
@@ -177,11 +177,6 @@ export interface WizardProperties {
     newValue: string | number | boolean | selectOption,
     accessor: Function,
     validations?: Array<Validation>
-  ) => void;
-  updateSelect: (
-    newValue: any,
-    accessor: Function,
-    validations: Array<Validation>
   ) => void;
   updateCheckbox: (newValue: boolean, accessor: Function) => void;
   addArrayElement: (

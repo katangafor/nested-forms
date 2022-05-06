@@ -59,7 +59,7 @@ const WizSelect = ({
   // const actualAccessor: Function = accessor ? accessor : (state: any) => state[name];
   const actualAccessor =
     typeof accessor === "string" ? (state: any) => state[accessor] : accessor;
-  const { state, updateSelect, setProperty, toggleErrorsVisible } = useWizContext();
+  const { state, updateSelectField, setProperty, toggleErrorsVisible } = useWizContext();
   const selectField = actualAccessor ? actualAccessor(state) : null;
   const readOnly = state.readOnly;
   if (!selectField) {
@@ -76,7 +76,12 @@ const WizSelect = ({
         message: "This field is required",
       });
     }
-    updateSelect(newVal, actualAccessor, allValidations);
+    // updateSelectField(newVal, actualAccessor, allValidations);
+    updateSelectField({
+      newValue: newVal,
+      accessor: actualAccessor,
+      validations: allValidations
+    })
     postFunc(newVal);
     if (customFunc && e.target) {
       customFunc(e.target.value);
@@ -88,17 +93,17 @@ const WizSelect = ({
   // wizText there;
   useEffect(() => {
     if (selectField) {
-      updateSelect(
-        { value: selectField.value, label: selectField.label },
-        actualAccessor,
-        [
+      updateSelectField({
+        newValue: { value: selectField.value, label: selectField.label},
+        accessor: actualAccessor,
+        validations: [
           {
             rule: (newValue: any) => !!newValue?.value ?? false,
             message: "This field is required",
           },
           ...validations,
         ]
-      );
+      })
     } else if (typeof accessor === "string") {
       setProperty((state: any) => state, accessor, genSelectField());
     } else {

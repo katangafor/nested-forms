@@ -10,7 +10,7 @@ interface RadioGroupProps {
   leftLabel?: string;
   rightLabel?: string;
   marginRight?: number;
-  postFunc: Function;
+  postFunc?: Function;
   disabled?: boolean;
   hideErrors?: boolean;
   required?: boolean;
@@ -28,7 +28,7 @@ const WizHorizontalRadioGroup = ({
   hideErrors = disabled,
   required,
 }: RadioGroupProps) => {
-  const { state, updateWizValue } = useWizContext();
+  const { state, updateSelectField } = useWizContext();
   const radioField = accessor(state);
 
   return (
@@ -51,7 +51,11 @@ const WizHorizontalRadioGroup = ({
                     disabled={disabled}
                     checked={radioField.value === option.value && !disabled}
                     onChange={() => {
-                      updateWizValue(option.value, accessor);
+                      updateSelectField({
+                        newValue: { value: option.value, label: option.label },
+                        accessor: accessor,
+                        validations: [],
+                      });
                       postFunc(option.value);
                     }}
                   />

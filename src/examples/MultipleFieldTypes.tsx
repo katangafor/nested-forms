@@ -7,6 +7,7 @@ import WizText from "../WizText";
 import WizNumber from "../WizNumber";
 import WizDate from "../WizDate";
 import WizSelect from "../WizSelect";
+import WizRadioHorizontal from "../WizRadioHorizontal";
 
 const MultipleFieldTypes: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
@@ -32,6 +33,14 @@ const MultipleFieldTypes: React.FC = () => {
           accessor={(state: any) => state.dateOfEarlobes}
         />
         <WizSelect
+          label="Earlobe Type"
+          accessor={(state: any) => state.earlobeType}
+          options={[
+            { label: "red", value: "red" },
+            { label: "blue", value: "blue" },
+          ]}
+        />
+        <WizRadioHorizontal
           label="Earlobe Type"
           accessor={(state: any) => state.earlobeType}
           options={[

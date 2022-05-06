@@ -10,7 +10,7 @@ import {
   UpdateNumberFieldArgs,
   UpdateSelectFieldArgs,
   UpdateBooleanFieldArgs,
-  UpdateDateFieldArgs
+  UpdateDateFieldArgs,
 } from "./types";
 import { genWizardDefaultState } from "./utils";
 
@@ -59,27 +59,6 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     });
   };
 
-  const updateSelectField = ({
-    newValue,
-    accessor,
-    validations,
-  }: UpdateSelectFieldArgs) => {
-    const errors: Array<string> = [];
-    if (validations) {
-      validations.forEach((validation: Validation) => {
-        if (!validation.rule(newValue)) {
-          errors.push(validation.message);
-        }
-      });
-    }
-    dispatch({
-      type: "UPDATE_SELECT_VALUE",
-      accessor,
-      newValue,
-      errors,
-    });
-  };
-
   const updateBooleanField = ({
     newValue,
     accessor,
@@ -88,27 +67,6 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     const errors: Array<string> = [];
     dispatch({
       type: "UPDATE_BOOLEAN_VALUE",
-      accessor,
-      newValue,
-      errors,
-    });
-  };
-
-  const updateNumberFields = ({
-    newValue,
-    accessor,
-    validations,
-  }: UpdateNumberFieldArgs) => {
-    const errors: Array<string> = [];
-    if (validations) {
-      validations.forEach((validation: Validation) => {
-        if (!validation.rule(newValue)) {
-          errors.push(validation.message);
-        }
-      });
-    }
-    dispatch({
-      type: "UPDATE_TEXT_VALUE",
       accessor,
       newValue,
       errors,
@@ -150,11 +108,13 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     });
   };
 
-  const updateSelect = (
-    newValue: any,
-    accessor: Function,
-    validations: Array<Validation> = []
-  ) => {
+  const updateSelectField = ({
+    newValue,
+    accessor,
+    validations,
+  }: UpdateSelectFieldArgs) => {
+    console.log("newValue", newValue);
+
     const nullCheckedNewValue = newValue
       ? newValue
       : { label: undefined, value: undefined };
@@ -286,7 +246,6 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     updateDateField,
     updateBooleanField,
     updateWizValue,
-    updateSelect,
     addArrayElement,
     addSubForm,
     replaceArrayElement,
