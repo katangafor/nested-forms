@@ -4,24 +4,24 @@ import styled from "styled-components/macro";
 
 import theme from "./theme";
 import { useWizContext } from "./wizContext";
-import { validation, selectOption } from "./types";
+import { Validation, selectOption } from "./types";
 import { genSelectField } from "./utils";
 // import WithTooltip from "./WithTooltip";
 // import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
 
 interface WizSelectProps {
   label: string;
-  message: string;
+  message?: string;
   accessor: Function | string;
   options: Array<selectOption>;
   visuallyHideLabel?: boolean;
-  optionType: string | number;
+  optionType?: string | number;
   optionsReady?: boolean;
   required?: boolean;
   disabled?: boolean;
   postFunc?: Function;
   hideErrors?: boolean;
-  validations?: Array<validation>;
+  validations?: Array<Validation>;
   defaultMenuIsOpen?: boolean;
   autoFocus?: boolean;
   customFunc?: Function;
@@ -44,7 +44,7 @@ const WizSelect = ({
   autoValue,
   autoFocus,
   customFunc = () => {},
-  message
+  message = ""
 }: WizSelectProps) => {
   if (!label) {
     throw new Error(

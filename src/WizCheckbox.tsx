@@ -1,9 +1,21 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-import { useWizContext } from "wizard/wizContext.ts";
+import { useWizContext } from "./wizContext";
 
-const WizCheckbox = ({ label, accessor, postFunc = () => {}, disabled = false }) => {
+export interface WizCheckboxProps {
+  label: string;
+  accessor: Function;
+  postFunc: Function;
+  disabled: boolean;
+}
+
+const WizCheckbox = ({
+  label,
+  accessor,
+  postFunc = () => {},
+  disabled = false,
+}: WizCheckboxProps) => {
   const { state, updateCheckbox } = useWizContext();
   const checkboxField = accessor(state);
   const readOnly = state.readOnly;
@@ -30,7 +42,7 @@ const Wrapper = styled.div`
   label {
     margin: 0;
     margin-left: 8px;
-    font-size: .9em;
+    font-size: 0.9em;
     color: #5a607f;
   }
 `;

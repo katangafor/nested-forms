@@ -2,7 +2,7 @@ import { useReducer, Reducer } from "react";
 
 import wizReducer from "./wizReducer";
 import {
-  validation,
+  Validation,
   selectOption,
   WizardProperties,
   WizConfig,
@@ -10,6 +10,7 @@ import {
   UpdateNumberFieldArgs,
   UpdateSelectFieldArgs,
   UpdateBooleanFieldArgs,
+  UpdateDateFieldArgs
 } from "./types";
 import { genWizardDefaultState } from "./utils";
 
@@ -23,7 +24,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
   }: UpdateTextFieldArgs) => {
     const errors: Array<string> = [];
     if (validations) {
-      validations.forEach((validation: validation) => {
+      validations.forEach((validation: Validation) => {
         if (!validation.rule(newValue)) {
           errors.push(validation.message);
         }
@@ -44,7 +45,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
   }: UpdateNumberFieldArgs) => {
     const errors: Array<string> = [];
     if (validations) {
-      validations.forEach((validation: validation) => {
+      validations.forEach((validation: Validation) => {
         if (!validation.rule(newValue)) {
           errors.push(validation.message);
         }
@@ -65,7 +66,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
   }: UpdateSelectFieldArgs) => {
     const errors: Array<string> = [];
     if (validations) {
-      validations.forEach((validation: validation) => {
+      validations.forEach((validation: Validation) => {
         if (!validation.rule(newValue)) {
           errors.push(validation.message);
         }
@@ -100,7 +101,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
   }: UpdateNumberFieldArgs) => {
     const errors: Array<string> = [];
     if (validations) {
-      validations.forEach((validation: validation) => {
+      validations.forEach((validation: Validation) => {
         if (!validation.rule(newValue)) {
           errors.push(validation.message);
         }
@@ -114,11 +115,26 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     });
   };
 
+  const updateDateField = ({
+    newValue,
+    accessor,
+    validations,
+  }: UpdateDateFieldArgs) => {
+    const errors: Array<string> = [];
+    validations.forEach((validation: Validation) => {});
+    dispatch({
+      type: "UPDATE_DATE_VALUE",
+      accessor,
+      newValue,
+      errors,
+    });
+  };
+
   // each validation that doesn't pass should add to an array of errors
   const updateWizValue = (
     newValue: string | number | selectOption | boolean,
     accessor: Function,
-    validations: Array<validation> = []
+    validations: Array<Validation> = []
   ) => {
     const errors: Array<string> = [];
     validations.forEach((validation) => {
@@ -137,7 +153,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
   const updateSelect = (
     newValue: any,
     accessor: Function,
-    validations: Array<validation> = []
+    validations: Array<Validation> = []
   ) => {
     const nullCheckedNewValue = newValue
       ? newValue
@@ -267,6 +283,7 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     updateTextField,
     updateNumberField,
     updateSelectField,
+    updateDateField,
     updateBooleanField,
     updateWizValue,
     updateSelect,

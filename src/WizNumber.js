@@ -2,10 +2,10 @@ import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import NumberFormat from "react-number-format";
 
-import { useWizContext } from "wizard/wizContext.ts";
+import { useWizContext } from "./index";
 import { genNumberField } from "./utils";
-import WithTooltip from "components/ux/WithTooltip";
-import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
+// import WithTooltip from "components/ux/WithTooltip";
+// import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
 
 /**
  * A component that works in tandem with the functions and objects returned from the useWizard hook
@@ -91,11 +91,11 @@ const WizNumber = ({
         <label className={`wiz-label ${required && "wiz-label--required"}`}>
           {label}
         </label>
-        {message && (
+        {/* {message && (
           <WithTooltip message={message} position="right" >
             <InfoCircle size={12} className="icon"/>
           </WithTooltip>
-        )}
+        )} */}
       </div>
       <NumberFormat
         thousandsGroupStyle="thousand"

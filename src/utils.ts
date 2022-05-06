@@ -4,6 +4,7 @@ import {
   TextField,
   NumberField,
   SelectField,
+  DateField,
   BooleanField,
   resProperty,
   WizConfig,
@@ -82,8 +83,15 @@ export const genBooleanField = (defaultValue = false): BooleanField => {
   };
 };
 
-export const genDateField = (defaultValue = new Date().getTime()) => {
-  return { value: defaultValue, errors: [], errorsVisible: false };
+export const genDateField = (
+  defaultValue = new Date().getTime()
+): DateField => {
+  return {
+    value: defaultValue,
+    errors: [],
+    errorsVisible: false,
+    fieldType: "date",
+  };
 };
 
 export const genGivenValue = (givenValue: any) => {
@@ -205,6 +213,9 @@ export const genWizardDefaultState = <T extends WizardFormState>(
             value: forceString(element.value),
           });
           break;
+        case "date":
+          form[key] = genDateField(forceNumber(element.value));
+          break;
         case "boolean":
           form[key] = genBooleanField(forceBoolean(element.value));
           break;
@@ -218,7 +229,7 @@ export const genWizardDefaultState = <T extends WizardFormState>(
   }
   // THIS DOESN'T REALLY HELP, MAYBE KINDA MAKES TYPESCRIPT POINTLESS??
   // maybe the problem is the object starts out empty, and stuff is slowly added to it.
-  // idk 
+  // idk
   return form as T;
 };
 

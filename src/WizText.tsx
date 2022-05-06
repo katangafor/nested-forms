@@ -4,16 +4,16 @@ import styled from "styled-components/macro";
 // import Link from "icon-wrappers/mediaPlanner/Link";
 import { useWizContext } from "./wizContext";
 import { genTextField } from "./utils";
-import { validation } from "./types";
+import { Validation } from "./types";
 // import WithTooltip from "components/ux/WithTooltip";
 // import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
 
-interface WizTextProps {
+export interface WizTextProps {
   label: string;
   placeholder?: string;
   maxLength?: number;
   accessor: Function | string;
-  validations?: Array<validation>;
+  validations?: Array<Validation>;
   required?: boolean;
   disabled?: boolean;
   postFunc?: Function;
@@ -78,7 +78,7 @@ const WizText = ({
     }
   };
 
-  const allValidations: Array<validation> = [];
+  const allValidations: Array<Validation> = [];
   if (required) {
     allValidations.push({
       rule: (newValue: any) => (newValue ? newValue.length > 0 : false),

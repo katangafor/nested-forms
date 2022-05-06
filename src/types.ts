@@ -1,8 +1,8 @@
 // type of a function that gets passed to WizText and stuff
-export type validation = {
+export interface Validation {
   message: string;
   rule: (value: string | number | selectOption | boolean) => boolean;
-};
+}
 
 export type selectOption = {
   label: string;
@@ -42,6 +42,13 @@ export interface BooleanField {
   fieldType: "boolean";
 }
 
+export interface DateField {
+  value: number;
+  errors: string[];
+  errorsVisible: boolean;
+  fieldType: "date";
+}
+
 export type localId = string;
 
 export type WizField =
@@ -49,6 +56,7 @@ export type WizField =
   | NumberField
   | SelectField
   | BooleanField
+  | DateField
   | localId;
 
 /**********
@@ -71,6 +79,11 @@ interface SelectFieldArg {
   label?: string | null | undefined;
 }
 
+interface DateFieldArg {
+  type: "date";
+  value?: number | null | undefined;
+}
+
 interface BooleanFieldArg {
   type: "boolean";
   value?: boolean | null | undefined;
@@ -84,6 +97,7 @@ export type SingleFieldArgument =
   | TextFieldArg
   | NumberFieldArg
   | SelectFieldArg
+  | DateFieldArg
   | BooleanFieldArg
   | localIdFieldArg;
 
@@ -106,7 +120,7 @@ export interface WizardFormState {
 
 interface WizUpdateArgs {
   accessor: Function;
-  validations: Array<validation>;
+  validations: Array<Validation>;
 }
 
 export interface UpdateTextFieldArgs extends WizUpdateArgs {
@@ -123,6 +137,10 @@ export interface UpdateSelectFieldArgs extends WizUpdateArgs {
 
 export interface UpdateBooleanFieldArgs extends WizUpdateArgs {
   newValue: boolean;
+}
+
+export interface UpdateDateFieldArgs extends WizUpdateArgs {
+  newValue: number;
 }
 
 // these are the functions and stuff that get returned by useWizard. I should figure out how to do generics with this biz
@@ -145,20 +163,25 @@ export interface WizardProperties {
     accessor,
     validations,
   }: UpdateSelectFieldArgs) => void;
+  updateDateField: ({
+    newValue,
+    accessor,
+    validations,
+  }: UpdateDateFieldArgs) => void;
   updateBooleanField: ({
     newValue,
     accessor,
-    validations
+    validations,
   }: UpdateBooleanFieldArgs) => void;
   updateWizValue: (
     newValue: string | number | boolean | selectOption,
     accessor: Function,
-    validations?: Array<validation>
+    validations?: Array<Validation>
   ) => void;
   updateSelect: (
     newValue: any,
     accessor: Function,
-    validations: Array<validation>
+    validations: Array<Validation>
   ) => void;
   updateCheckbox: (newValue: boolean, accessor: Function) => void;
   addArrayElement: (

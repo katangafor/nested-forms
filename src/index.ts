@@ -15,7 +15,7 @@ import {
   useWizContext
 } from './wizContext';
 import {
-  validation,
+  Validation,
   selectOption,
   TextField,
   NumberField,
@@ -43,7 +43,7 @@ export {
   hasErrors,
   hasUnsaved,
 
-  type validation,
+  type Validation,
   type selectOption,
   type TextField,
   type NumberField,

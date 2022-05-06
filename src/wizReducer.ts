@@ -15,6 +15,13 @@ const wizReducer = <T>(state: T, action: any): Object => {
       selectField.errors = action.errors;
       return newState;
     }
+    case 'UPDATE_DATE_VALUE': {
+      const newState = JSON.parse(JSON.stringify(state));
+      let dateField = action.accessor(newState);
+      dateField.value = action.newValue;
+      dateField.errors = action.errors;
+      return newState;
+    }
     case "UDPATE_CHECKBOX_VALUE": {
       const newState = JSON.parse(JSON.stringify(state));
       let checkboxField = action.accessor(newState);
