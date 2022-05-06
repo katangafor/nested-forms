@@ -1,7 +1,16 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-import { useWizContext } from "wizard/wizContext.ts";
+import { useWizContext } from "./wizContext";
+
+interface RadioGroupProps {
+  label: string;
+  accessor: Function;
+  options: Array<{ label: string; value: string }>;
+  postFunc?: (newVal: any) => void;
+  disabled?: boolean;
+  required?: boolean;
+}
 
 const WizVerticalRadioGroup = ({
   accessor,
@@ -10,7 +19,7 @@ const WizVerticalRadioGroup = ({
   postFunc = () => {},
   disabled = false,
   required,
-}) => {
+}: RadioGroupProps) => {
   const { state, updateWizValue } = useWizContext();
   const radioField = accessor(state);
 

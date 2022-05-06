@@ -1,7 +1,20 @@
 import React from "react";
 import styled from "styled-components/macro";
 
-import { useWizContext } from "wizard/wizContext.ts";
+import { useWizContext } from "./wizContext";
+
+interface RadioGroupProps {
+  label: string;
+  accessor: Function;
+  options: Array<{ label: string; value: string }>;
+  leftLabel?: string;
+  rightLabel?: string;
+  marginRight?: number;
+  postFunc: Function;
+  disabled?: boolean;
+  hideErrors?: boolean;
+  required?: boolean;
+}
 
 const WizHorizontalRadioGroup = ({
   accessor,
@@ -9,12 +22,12 @@ const WizHorizontalRadioGroup = ({
   label,
   leftLabel,
   rightLabel,
-  marginRight,
+  marginRight = 0,
   postFunc = () => {},
   disabled = false,
   hideErrors = disabled,
-  required
-}) => {
+  required,
+}: RadioGroupProps) => {
   const { state, updateWizValue } = useWizContext();
   const radioField = accessor(state);
 
@@ -23,9 +36,10 @@ const WizHorizontalRadioGroup = ({
       <div className="two-column">
         <div>
           <label className="wiz-label group-label">{label}</label>
-          {radioField.errors && radioField.errors.length > 0 && !hideErrors && required && (
-            <p className="field-error">Please select an option</p>
-          )}
+          {radioField.errors &&
+            radioField.errors.length > 0 &&
+            !hideErrors &&
+            required && <p className="field-error">Please select an option</p>}
         </div>
         <div>
           <div className="radios">
@@ -58,7 +72,7 @@ const WizHorizontalRadioGroup = ({
 
 export default WizHorizontalRadioGroup;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ marginRight: number }>`
   input {
     margin: 0;
     display: block;

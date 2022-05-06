@@ -2,27 +2,36 @@ import React, { useEffect } from "react";
 import styled from "styled-components/macro";
 import TextareaAutosize from "react-textarea-autosize";
 
-import { useWizContext } from "wizard/wizContext.ts";
+import { useWizContext } from "./wizContext";
 import { genTextField } from "./utils";
+import { Validation } from "./types";
+
+interface WizTextAreaProps {
+  label: string;
+  accessor: Function;
+  validations: Array<Validation>;
+  required?: boolean;
+  disabled?: boolean;
+  postFunc?: Function;
+}
 
 const WizTextArea = ({
   label,
   accessor,
   validations = [],
   required = true,
-  hideErrors,
   disabled,
   postFunc = () => {},
-}) => {
+}: WizTextAreaProps) => {
   const { state, updateWizValue, setProperty, toggleErrorsVisible } =
     useWizContext();
   const textAreaField = accessor(state);
   const readOnly = state.readOnly;
 
-  const baseValidations = [];
+  const baseValidations: any[] = [];
   if (required) {
     baseValidations.push({
-      rule: (newValue) => newValue.length > 0,
+      rule: (newValue: string) => newValue.length > 0,
       message: "This field is required",
     });
   }
@@ -35,7 +44,7 @@ const WizTextArea = ({
     if (textAreaField) {
       updateWizValue(textAreaField.value, accessor, baseValidations);
     } else if (typeof accessor === "string") {
-      setProperty((state) => state, accessor, genTextField("", required));
+      setProperty((state: any) => state, accessor, genTextField("", required));
     } else {
       throw new Error("The property described by that accessor is undefined.");
     }
@@ -63,7 +72,7 @@ const WizTextArea = ({
       />
       {textAreaField.errorsVisible && (
         <>
-          {textAreaField.errors.map((error) => {
+          {textAreaField.errors.map((error: string) => {
             return (
               <p className="field-error" key={error}>
                 {error}
@@ -78,7 +87,7 @@ const WizTextArea = ({
 
 export default WizTextArea;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ hasError: boolean; disabled: boolean }>`
   .textarea-autosize {
     resize: none;
     width: 100%;
@@ -95,7 +104,7 @@ const Wrapper = styled.div`
       background: #f0f1f5;
     }
   }
-  label{
-  color:  ${({ theme }) => theme.blueGrayDark};
-}
+  label {
+    color: ${({ theme }) => theme.blueGrayDark};
+  }
 `;

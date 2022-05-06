@@ -2,9 +2,15 @@ import React from "react";
 import styled from "styled-components/macro";
 
 import { useWizContext } from "./wizContext";
-import { failToast } from "components/ux/toastGenerators";
 
-const WizToggle = ({ label, accessor, preFunc, postFunc }) => {
+interface WizToggleProps {
+  label: string;
+  accessor: Function;
+  preFunc?: any;
+  postFunc?: any;
+}
+
+const WizToggle = ({ label, accessor, preFunc, postFunc }: WizToggleProps) => {
   const { state, updateCheckbox } = useWizContext();
   const toggleField = accessor(state);
   const readOnly = state.readOnly;
@@ -13,7 +19,6 @@ const WizToggle = ({ label, accessor, preFunc, postFunc }) => {
     if (preFunc) {
       const [response, ok] = await preFunc();
       if (!ok) {
-        failToast(`${response}`);
         console.log(response);
       } else {
         console.log(response);
@@ -44,7 +49,7 @@ const WizToggle = ({ label, accessor, preFunc, postFunc }) => {
       </Wrapper>
     );
   } else {
-    return <></>
+    return <></>;
   }
 };
 

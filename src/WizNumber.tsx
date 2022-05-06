@@ -1,18 +1,30 @@
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import styled from "styled-components/macro";
 import NumberFormat from "react-number-format";
 
 import { useWizContext } from "./index";
 import { genNumberField } from "./utils";
-// import WithTooltip from "components/ux/WithTooltip";
-// import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
+import { Validation } from "./types";
 
-/**
- * A component that works in tandem with the functions and objects returned from the useWizard hook
- *
- * @param {*} param0
- * @returns
- */
+interface NumberFieldProps {
+  label: string;
+  accessor: Function;
+  min?: number;
+  max?: number;
+  validations?: Array<Validation>;
+  step?: number;
+  dollars?: boolean;
+  percent?: boolean;
+  required?: boolean;
+  disabled?: boolean;
+  postFunc?: Function;
+  customFunc?: Function;
+  hideErrors?: boolean;
+  onKeyPress?: Function;
+  autoFocus?: boolean;
+  message?: string;
+}
+
 const WizNumber = ({
   label,
   accessor,
@@ -27,37 +39,37 @@ const WizNumber = ({
   postFunc = () => {},
   customFunc = () => {},
   hideErrors,
-  onKeyPress,
+  // onKeyPress,
   autoFocus = false,
   message,
-}) => {
+}: NumberFieldProps) => {
   const { state, updateWizValue, setProperty, toggleErrorsVisible } =
     useWizContext();
   const numberField = accessor(state);
   const readOnly = state.readOnly;
 
-  const baseValidations = [];
+  const baseValidations: Validation[] = [];
   if (required) {
     baseValidations.push({
-      rule: (newValue) => newValue > 0,
+      rule: (newValue: any) => newValue > 0,
       message: "This field is required",
     });
   }
   if (min || min === 0) {
     baseValidations.push({
-      rule: (newValue) => newValue >= min,
+      rule: (newValue: any) => newValue >= min,
       message: `Value must be at least ${min}`,
     });
   }
   if (max || max === 0) {
     baseValidations.push({
-      rule: (newValue) => newValue <= max,
+      rule: (newValue: any) => newValue <= max,
       message: `Value cannot exceed ${max}`,
     });
   }
   if (step) {
     baseValidations.push({
-      rule: (newValue) => newValue % step === 0,
+      rule: (newValue: any) => newValue % step === 0,
       message: `Value must be a multiple of ${step}`,
     });
   }
@@ -70,7 +82,7 @@ const WizNumber = ({
     if (numberField) {
       updateWizValue(numberField.value, accessor, baseValidations);
     } else if (typeof accessor === "string") {
-      setProperty((state) => state, accessor, genNumberField("", required));
+      setProperty((state: any) => state, accessor, genNumberField());
     } else {
       throw new Error("The property described by that accessor is undefined.");
     }
@@ -109,8 +121,8 @@ const WizNumber = ({
         step={step}
         autoFocus={autoFocus}
         onBlur={() => toggleErrorsVisible(accessor, true)}
-        onKeyPress={onKeyPress}
-        onChange={(e) => {
+        // onKeyPress={onKeyPress}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => {
           updateWizValue(
             parseFloat(e.target.value.replace(/,/g, "")),
             accessor,
@@ -133,7 +145,7 @@ const WizNumber = ({
       )}
       {numberField.errorsVisible && (
         <>
-          {numberField.errors.map((error) => {
+          {numberField.errors.map((error: string) => {
             return (
               <p className="field-error" key={error}>
                 {error}
@@ -148,7 +160,7 @@ const WizNumber = ({
 
 export default WizNumber;
 
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ hasErrors: boolean; disabled: boolean }>`
   position: relative;
   input {
     border: 1px solid
@@ -169,8 +181,8 @@ const Wrapper = styled.div`
   .icon {
     margin-bottom: 6px;
   }
-  label{
-  color:  ${({ theme }) => theme.blueGrayDark};
+  label {
+    color: ${({ theme }) => theme.blueGrayDark};
   }
 
   .tooltip-label {
