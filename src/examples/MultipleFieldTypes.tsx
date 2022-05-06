@@ -8,6 +8,7 @@ import WizNumber from "../WizNumber";
 import WizDate from "../WizDate";
 import WizSelect from "../WizSelect";
 import WizRadioHorizontal from "../WizRadioHorizontal";
+import WizTextArea from "../WizTextArea";
 
 const MultipleFieldTypes: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
@@ -48,6 +49,7 @@ const MultipleFieldTypes: React.FC = () => {
             { label: "blue", value: "blue" },
           ]}
         />
+        <WizTextArea label='Name' accessor={(state: any) => state.name} />
       </WizProvider>
     </Div>
   );

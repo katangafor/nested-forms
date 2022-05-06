@@ -9,7 +9,7 @@ import { Validation } from "./types";
 interface WizTextAreaProps {
   label: string;
   accessor: Function;
-  validations: Array<Validation>;
+  validations?: Array<Validation>;
   required?: boolean;
   disabled?: boolean;
   postFunc?: Function;
