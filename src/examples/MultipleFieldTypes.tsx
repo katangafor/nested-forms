@@ -7,6 +7,7 @@ import WizNumber from "../WizNumber";
 import WizDate from "../WizDate";
 import WizSelect from "../WizSelect";
 import WizRadioHorizontal from "../WizRadioHorizontal";
+import WizRadioVertical from '../WizRadioVertical';
 import WizTextArea from "../WizTextArea";
 import WizToggle from "../WizToggle";
 import WizCheckbox from "../WizCheckbox";
@@ -52,12 +53,23 @@ const MultipleFieldTypes: React.FC = () => {
             { label: "blue", value: "blue" },
           ]}
         />
+        <WizRadioVertical
+          label="Earlobe Type"
+          accessor={(state: any) => state.earlobeType}
+          options={[
+            { label: "red", value: "red" },
+            { label: "blue", value: "blue" },
+          ]}
+        />
         <WizTextArea label="Name" accessor={(state: any) => state.name} />
         <WizToggle
           label="Has earlobes"
           accessor={(state: any) => state.hasEarlobes}
         />
-        <WizCheckbox label="Has Earlobes" accessor={(state: any) => state.hasEarlobes} />
+        <WizCheckbox
+          label="Has Earlobes"
+          accessor={(state: any) => state.hasEarlobes}
+        />
       </WizProvider>
     </Div>
   );

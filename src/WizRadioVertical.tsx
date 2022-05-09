@@ -20,7 +20,7 @@ const WizVerticalRadioGroup = ({
   disabled = false,
   required,
 }: RadioGroupProps) => {
-  const { state, updateWizValue } = useWizContext();
+  const { state, updateSelectField } = useWizContext();
   const radioField = accessor(state);
 
   return (
@@ -34,7 +34,11 @@ const WizVerticalRadioGroup = ({
               type="radio"
               checked={radioField.value === option.value && !disabled}
               onChange={() => {
-                updateWizValue(option.value, accessor);
+                updateSelectField({
+                  newValue: { value: option.value, label: option.label },
+                  accessor,
+                  validations: []
+                })
                 postFunc(option.value);
               }}
             />

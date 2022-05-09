@@ -1,5 +1,5 @@
 import React from "react";
-import { WizardProperties, validation } from "./types";
+import { WizardProperties } from "./types";
 const WizContext = React.createContext<WizardProperties | undefined>(undefined);
 
 const WizProvider = WizContext.Provider;
