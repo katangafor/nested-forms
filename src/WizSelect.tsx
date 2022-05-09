@@ -1,6 +1,6 @@
 import React, { useEffect} from "react";
 import Select from "react-select";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 
 import theme from "./theme";
 import { useWizContext } from "./wizContext";

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect } from "react";
-import styled from "styled-components/macro";
+import styled from "styled-components";
 import NumberFormat from "react-number-format";
 
 import { useWizContext } from "./wizContext";
