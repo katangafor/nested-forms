@@ -2,7 +2,7 @@ import React, { ChangeEvent, useEffect } from "react";
 import styled from "styled-components/macro";
 import NumberFormat from "react-number-format";
 
-import { useWizContext } from "./index";
+import { useWizContext } from "./wizContext";
 import { genNumberField } from "./utils";
 import { Validation, WizardFormState, NumberField } from "./types";
 

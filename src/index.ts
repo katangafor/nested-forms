@@ -27,6 +27,16 @@ import {
   resProperty
 } from './types';
 
+import WizText from "./WizText";
+import WizNumber from "./WizNumber";
+import WizDate from "./WizDate";
+import WizSelect from "./WizSelect";
+import WizRadioHorizontal from "./WizRadioHorizontal";
+import WizRadioVertical from './WizRadioVertical';
+import WizTextArea from "./WizTextArea";
+import WizToggle from "./WizToggle";
+import WizCheckbox from "./WizCheckbox";
+
 export {
   useWizard,
 
@@ -52,5 +62,15 @@ export {
   type WizField,
   type WizConfig,
   type WizardProperties,
-  type resProperty
+  type resProperty,
+
+  WizText,
+  WizNumber,
+  WizDate,
+  WizSelect,
+  WizRadioHorizontal,
+  WizRadioVertical,
+  WizTextArea,
+  WizToggle,
+  WizCheckbox
 };
