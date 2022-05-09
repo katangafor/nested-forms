@@ -11,7 +11,7 @@ interface WizToggleProps {
 }
 
 const WizToggle = ({ label, accessor, preFunc, postFunc }: WizToggleProps) => {
-  const { state, updateCheckbox } = useWizContext();
+  const { state, updateBooleanField } = useWizContext();
   const toggleField = accessor(state);
   const readOnly = state.readOnly;
 
@@ -22,10 +22,18 @@ const WizToggle = ({ label, accessor, preFunc, postFunc }: WizToggleProps) => {
         console.log(response);
       } else {
         console.log(response);
-        updateCheckbox(!toggleField.value, accessor);
+        updateBooleanField({
+          newValue: !toggleField.value,
+          accessor,
+          validations: []
+        })
       }
     } else {
-      updateCheckbox(!toggleField.value, accessor);
+      updateBooleanField({
+        newValue: !toggleField.value,
+        accessor,
+        validations: []
+      })
     }
     if (postFunc) {
       postFunc();

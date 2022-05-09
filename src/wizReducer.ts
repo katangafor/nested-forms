@@ -81,7 +81,6 @@ const wizReducer = (state: WizardFormState, action: any): any => {
       return newState;
     }
     case "REMOVE_SUB_FORM": {
-      console.log("in the reducer");
       const newState = JSON.parse(JSON.stringify(state));
       const formId = action.formId;
       let array = action.arrayAccessor(newState);

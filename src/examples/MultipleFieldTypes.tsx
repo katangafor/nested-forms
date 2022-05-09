@@ -9,6 +9,7 @@ import WizSelect from "../WizSelect";
 import WizRadioHorizontal from "../WizRadioHorizontal";
 import WizTextArea from "../WizTextArea";
 import WizToggle from "../WizToggle";
+import WizCheckbox from "../WizCheckbox";
 
 const MultipleFieldTypes: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
@@ -56,6 +57,7 @@ const MultipleFieldTypes: React.FC = () => {
           label="Has earlobes"
           accessor={(state: any) => state.hasEarlobes}
         />
+        <WizCheckbox label="Has Earlobes" accessor={(state: any) => state.hasEarlobes} />
       </WizProvider>
     </Div>
   );

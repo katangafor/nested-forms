@@ -6,8 +6,8 @@ import { useWizContext } from "./wizContext";
 export interface WizCheckboxProps {
   label: string;
   accessor: Function;
-  postFunc: Function;
-  disabled: boolean;
+  postFunc?: Function;
+  disabled?: boolean;
 }
 
 const WizCheckbox = ({
@@ -16,7 +16,7 @@ const WizCheckbox = ({
   postFunc = () => {},
   disabled = false,
 }: WizCheckboxProps) => {
-  const { state, updateCheckbox } = useWizContext();
+  const { state, updateBooleanField } = useWizContext();
   const checkboxField = accessor(state);
   const readOnly = state.readOnly;
 
@@ -26,7 +26,12 @@ const WizCheckbox = ({
         type="checkbox"
         checked={checkboxField.value}
         onChange={() => {
-          updateCheckbox(!checkboxField.value, accessor);
+          // updateCheckbox(!checkboxField.value, accessor);
+          updateBooleanField({
+            newValue: !checkboxField.value,
+            accessor,
+            validations: []
+          })
           postFunc();
         }}
         disabled={disabled || readOnly}
