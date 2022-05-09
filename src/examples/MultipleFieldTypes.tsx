@@ -3,12 +3,12 @@ import styled from "styled-components";
 
 import { useWizard, genWizardDefaultState, WizProvider } from "../index";
 import WizText from "../WizText";
-//@ts-ignore
 import WizNumber from "../WizNumber";
 import WizDate from "../WizDate";
 import WizSelect from "../WizSelect";
 import WizRadioHorizontal from "../WizRadioHorizontal";
 import WizTextArea from "../WizTextArea";
+import WizToggle from "../WizToggle";
 
 const MultipleFieldTypes: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
@@ -16,9 +16,11 @@ const MultipleFieldTypes: React.FC = () => {
     numberOfEarlobes: { type: "number" },
     dateOfEarlobes: { type: "date" },
     earlobeType: { type: "select" },
+    hasEarlobes: { type: "boolean" },
   });
 
   const wizard = useWizard(defaultWizState);
+  console.log();
 
   return (
     <Div>
@@ -49,7 +51,11 @@ const MultipleFieldTypes: React.FC = () => {
             { label: "blue", value: "blue" },
           ]}
         />
-        <WizTextArea label='Name' accessor={(state: any) => state.name} />
+        <WizTextArea label="Name" accessor={(state: any) => state.name} />
+        <WizToggle
+          label="Has earlobes"
+          accessor={(state: any) => state.hasEarlobes}
+        />
       </WizProvider>
     </Div>
   );

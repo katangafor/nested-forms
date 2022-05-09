@@ -42,6 +42,11 @@ export interface BooleanField {
   fieldType: "boolean";
 }
 
+export interface NonFieldBoolean {
+  value: Boolean;
+  fieldType: "nonFieldBoolean";
+}
+
 export interface DateField {
   value: number;
   errors: string[];
@@ -56,13 +61,14 @@ export type WizField =
   | NumberField
   | SelectField
   | BooleanField
+  | NonFieldBoolean
   | DateField
   | localId;
 
-/**********
+/*************************
  * ARGUMENT OBJECTS
  * pass an object of these to genWizardFormState to make a default wizard form state
- */
+ **************************/
 interface TextFieldArg {
   type: "text";
   value?: string | null | undefined;
@@ -89,6 +95,11 @@ interface BooleanFieldArg {
   value?: boolean | null | undefined;
 }
 
+interface NonFieldBooleanArg {
+  type: "nonFieldBoolean";
+  value?: boolean | null | undefined;
+}
+
 interface localIdFieldArg {
   type: "localId";
 }
@@ -99,6 +110,7 @@ export type SingleFieldArgument =
   | SelectFieldArg
   | DateFieldArg
   | BooleanFieldArg
+  | NonFieldBooleanArg
   | localIdFieldArg;
 
 // a WizArg is anything value in the key-value pairs of a WizConfig object
@@ -132,12 +144,13 @@ export interface UpdateNumberFieldArgs extends WizUpdateArgs {
 }
 
 export interface UpdateSelectFieldArgs extends WizUpdateArgs {
-  newValue: { label: string, value: any };
+  newValue: { label: string; value: any };
 }
 
 export interface UpdateBooleanFieldArgs extends WizUpdateArgs {
   newValue: boolean;
 }
+
 
 export interface UpdateDateFieldArgs extends WizUpdateArgs {
   newValue: number;
@@ -173,17 +186,13 @@ export interface WizardProperties {
     accessor,
     validations,
   }: UpdateBooleanFieldArgs) => void;
-  updateWizValue: (
-    newValue: string | number | boolean | selectOption,
-    accessor: Function,
-    validations?: Array<Validation>
-  ) => void;
-  updateCheckbox: (newValue: boolean, accessor: Function) => void;
-  addArrayElement: (
-    createNewElement: Function,
-    accessor: Function,
-    args: any
-  ) => void;
+  updateNonFieldBoolean: ({
+    newValue,
+    accessor,
+  }: {
+    newValue: boolean;
+    accessor: Function;
+  }) => void;
   addSubForm: ({
     config,
     accessor,
@@ -191,13 +200,13 @@ export interface WizardProperties {
     config: WizConfig;
     accessor: Function;
   }) => void;
-  replaceArrayElement: (
-    createNewElement: Function,
-    accessor: Function,
-    args: any,
-    index: number
-  ) => void;
-  deleteArrayElement: (arrayAccessor: Function, localId: string) => void;
+  removeSubForm: ({
+    arrayAccessor,
+    formId
+  }: {
+    arrayAccessor: Function;
+    formId: string;
+  }) => void;
   setValue: (accessor: Function, newValue: any) => void;
   setProperty: (
     parentAccessor: Function,

@@ -6,6 +6,7 @@ import {
   SelectField,
   DateField,
   BooleanField,
+  NonFieldBoolean,
   resProperty,
   WizConfig,
   WizardFormState,
@@ -82,6 +83,13 @@ export const genBooleanField = (defaultValue = false): BooleanField => {
     fieldType: "boolean",
   };
 };
+
+export const genNonFieldBoolean = (defaultValue = false): NonFieldBoolean => {
+  return {
+    value: defaultValue,
+    fieldType: "nonFieldBoolean",
+  };
+}
 
 export const genDateField = (
   defaultValue = new Date().getTime()
@@ -194,6 +202,7 @@ export const genWizardDefaultState = <T extends WizardFormState>(
   config: WizConfig
 ): T => {
   const form: WizardFormState = {};
+  form.localId = uuid();
   for (const key in config) {
     const element = config[key];
     if (Array.isArray(element)) {
@@ -219,9 +228,9 @@ export const genWizardDefaultState = <T extends WizardFormState>(
         case "boolean":
           form[key] = genBooleanField(forceBoolean(element.value));
           break;
-        case "localId":
-          form[key] = genLocalId();
-          break;
+        // case "localId":
+        //   form[key] = genLocalId();
+          // break;
         default:
           break;
       }

@@ -23,7 +23,7 @@ const WizTextArea = ({
   disabled,
   postFunc = () => {},
 }: WizTextAreaProps) => {
-  const { state, updateWizValue, setProperty, toggleErrorsVisible } =
+  const { state, updateTextField, setProperty, toggleErrorsVisible } =
     useWizContext();
   const textAreaField = accessor(state);
   const readOnly = state.readOnly;
@@ -42,7 +42,12 @@ const WizTextArea = ({
   // wizText there
   useEffect(() => {
     if (textAreaField) {
-      updateWizValue(textAreaField.value, accessor, baseValidations);
+      // updateTextField(textAreaField.value, accessor, baseValidations);
+      updateTextField({
+        newValue: textAreaField.value,
+        accessor,
+        validations: baseValidations,
+      })
     } else if (typeof accessor === "string") {
       setProperty((state: any) => state, accessor, genTextField("", required));
     } else {
@@ -60,11 +65,16 @@ const WizTextArea = ({
         value={textAreaField.value}
         onBlur={() => toggleErrorsVisible(accessor, true)}
         onChange={(e) => {
-          updateWizValue(e.target.value, accessor, [
-            ...baseValidations,
-            ...validations,
-          ]);
-          postFunc(e);
+          // updateWizValue(e.target.value, accessor, [
+          //   ...baseValidations,
+          //   ...validations,
+          // ]);
+          // postFunc(e);
+          updateTextField({
+            newValue: e.target.value,
+            accessor,
+            validations: [...baseValidations, ...validations],
+          })
         }}
         disabled={disabled || readOnly}
         className="textarea-autosize"

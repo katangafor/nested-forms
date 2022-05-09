@@ -1,3 +1,4 @@
+import { v4 as uuid } from "uuid";
 import { useReducer, Reducer } from "react";
 
 import wizReducer from "./wizReducer";
@@ -11,10 +12,11 @@ import {
   UpdateSelectFieldArgs,
   UpdateBooleanFieldArgs,
   UpdateDateFieldArgs,
+  WizardFormState,
 } from "./types";
 import { genWizardDefaultState } from "./utils";
 
-const useWizard = <T>(initialState: T): WizardProperties => {
+const useWizard = (initialState: WizardFormState): WizardProperties => {
   const [state, dispatch] = useReducer(wizReducer, initialState);
 
   const updateTextField = ({
@@ -73,6 +75,20 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     });
   };
 
+  const updateNonFieldBoolean = ({
+    newValue,
+    accessor,
+  }: {
+    newValue: true | false;
+    accessor: Function;
+  }) => {
+    dispatch({
+      type: "UPDATE_NON_FIELD_BOOLEAN",
+      accessor,
+      newValue,
+    });
+  };
+
   const updateDateField = ({
     newValue,
     accessor,
@@ -82,26 +98,6 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     validations.forEach((validation: Validation) => {});
     dispatch({
       type: "UPDATE_DATE_VALUE",
-      accessor,
-      newValue,
-      errors,
-    });
-  };
-
-  // each validation that doesn't pass should add to an array of errors
-  const updateWizValue = (
-    newValue: string | number | selectOption | boolean,
-    accessor: Function,
-    validations: Array<Validation> = []
-  ) => {
-    const errors: Array<string> = [];
-    validations.forEach((validation) => {
-      if (!validation.rule(newValue)) {
-        errors.push(validation.message);
-      }
-    });
-    dispatch({
-      type: "UPDATE_TEXT_VALUE",
       accessor,
       newValue,
       errors,
@@ -132,30 +128,6 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     });
   };
 
-  const updateCheckbox = (newValue: boolean, accessor: Function) => {
-    console.log("new value is");
-    console.log(newValue);
-    dispatch({
-      type: "UDPATE_CHECKBOX_VALUE",
-      newValue,
-      accessor,
-    });
-  };
-
-  const addArrayElement = (
-    createNewElement: Function,
-    accessor: Function,
-    args = {}
-  ) => {
-    console.log("args is");
-    console.log(args);
-    dispatch({
-      type: "ADD_ARRAY_ELEMENT",
-      newElement: createNewElement(args),
-      accessor,
-    });
-  };
-
   const addSubForm = ({
     config,
     accessor,
@@ -164,38 +136,24 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     accessor: Function;
   }) => {
     dispatch({
-      type: "ADD_ARRAY_ELEMENT",
+      type: "ADD_SUB_FORM",
       newElement: genWizardDefaultState(config),
       accessor,
     });
   };
 
-  const replaceArrayElement = (
-    createNewElement: Function,
-    accessor: Function,
-    args = {},
-    index: number
-  ) => {
-    console.log("args is");
-    console.log(args);
+  const removeSubForm = ({
+    arrayAccessor,
+    formId,
+  }: {
+    arrayAccessor: Function;
+    formId: string;
+  }) => {
+    console.log("In the hook");
     dispatch({
-      type: "REPLACE_ARRAY_ELEMENT",
-      newElement: createNewElement(args),
-      accessor,
-      index: index,
-    });
-  };
-
-  /**
-   *
-   * @param {*} accessor the accessor for the item's containing array
-   * @param {*} localId the local uid of the element
-   */
-  const deleteArrayElement = (arrayAccessor: Function, localId: string) => {
-    dispatch({
-      type: "DELETE_ARRAY_ELEMENT",
-      accessor: arrayAccessor,
-      localId,
+      type: "REMOVE_SUB_FORM",
+      arrayAccessor,
+      formId,
     });
   };
 
@@ -245,12 +203,9 @@ const useWizard = <T>(initialState: T): WizardProperties => {
     updateSelectField,
     updateDateField,
     updateBooleanField,
-    updateWizValue,
-    addArrayElement,
+    updateNonFieldBoolean,
     addSubForm,
-    replaceArrayElement,
-    deleteArrayElement,
-    updateCheckbox,
+    removeSubForm,
     setValue,
     setProperty,
     setState,

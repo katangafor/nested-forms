@@ -54,7 +54,7 @@ const WizText = ({
   // provided accessor
   const actualAccessor =
     typeof accessor === "string" ? (state: any) => state[accessor] : accessor;
-  const { state, updateWizValue, setProperty, toggleErrorsVisible } =
+  const { state, updateTextField, setProperty, toggleErrorsVisible } =
     useWizContext();
   const readOnly = state.readOnly;
   const textField = actualAccessor ? actualAccessor(state) : null;
@@ -71,7 +71,11 @@ const WizText = ({
         message: "This field is required",
       });
     }
-    updateWizValue(e.target.value, actualAccessor, allValidations);
+    updateTextField({
+      newValue: e.target.value,
+      accessor: actualAccessor,
+      validations: allValidations,
+    });
     postFunc();
     if (customFunc) {
       customFunc(e);
@@ -92,7 +96,12 @@ const WizText = ({
   // wizText there
   useEffect(() => {
     if (textField) {
-      updateWizValue(textField.value, actualAccessor, allValidations);
+      // updateWizValue(textField.value, actualAccessor, allValidations);
+      updateTextField({
+        newValue: textField.value,
+        accessor: actualAccessor,
+        validations: allValidations,
+      });
     } else if (typeof accessor === "string") {
       setProperty((state: any) => state, accessor, genTextField("", required));
     } else {
@@ -119,37 +128,37 @@ const WizText = ({
       {/* {readOnly ? (
         <p>hello</p>
       ) : ( */}
-        <>
-          <input
-            type="text"
-            disabled={disabled || readOnly}
-            className={`${
-              showErrors && textField.errorsVisible && "has-error"
-            } ${link && "left-padded"}`}
-            value={textField?.value ?? ""} // textField could be undefined if the user is creating the value on first render (passing in name without a real default state)
-            onChange={onFieldChange}
-            data-testid={testId}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            onBlur={() => toggleErrorsVisible(accessor, true)}
-          />
-          {link && (
-            <span className="link-icon-wrapper">
-              {/* <Link scale={0.7} dy={9} dx={10} /> */}
-            </span>
-          )}
-          {textField.errorsVisible && (
-            <>
-              {textField.errors.map((error: any) => {
-                return (
-                  <p className="field-error" key={error}>
-                    {error}
-                  </p>
-                );
-              })}
-            </>
-          )}
-        </>
+      <>
+        <input
+          type="text"
+          disabled={disabled || readOnly}
+          className={`${showErrors && textField.errorsVisible && "has-error"} ${
+            link && "left-padded"
+          }`}
+          value={textField?.value ?? ""} // textField could be undefined if the user is creating the value on first render (passing in name without a real default state)
+          onChange={onFieldChange}
+          data-testid={testId}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          onBlur={() => toggleErrorsVisible(accessor, true)}
+        />
+        {link && (
+          <span className="link-icon-wrapper">
+            {/* <Link scale={0.7} dy={9} dx={10} /> */}
+          </span>
+        )}
+        {textField.errorsVisible && (
+          <>
+            {textField.errors.map((error: any) => {
+              return (
+                <p className="field-error" key={error}>
+                  {error}
+                </p>
+              );
+            })}
+          </>
+        )}
+      </>
       {/* )} */}
     </Wrapper>
   );
@@ -158,12 +167,12 @@ const WizText = ({
 export default WizText;
 
 const Div = styled.div`
-display: flex;
-gap: 5px;
-label{
-  color:  ${({ theme }) => theme.blueGrayDark};
-}
- .icon {
+  display: flex;
+  gap: 5px;
+  label {
+    color: ${({ theme }) => theme.blueGrayDark};
+  }
+  .icon {
     margin-bottom: 6px;
   }
 `;

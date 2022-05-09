@@ -1,10 +1,56 @@
-const wizReducer = <T>(state: T, action: any): Object => {
+import { WizardFormState, TextField, NumberField, SelectField } from "./types";
+
+// interface WizAction {
+//   case:
+//     | "UPDATE_TEXT_VALUE"
+//     | "UPDATE_DATE_VALUE"
+//     | "UPDATE_BOOLEAN_VALUE"
+//     | "ADD_SUB_FORM"
+//     | "DELETE_SUB_FORM"
+//     | "REPLACE_SUB_FORM"
+//     | "TOGGLE_ERRORS_VISBLE";
+//   accessor: (state: WizardFormState) => WizField;
+// }
+
+interface TextFieldAction {
+  type: "UPDATE_TEXT_VALUE";
+  accessor: (state: WizardFormState) => TextField;
+  newValue: string;
+  errors: string[];
+}
+
+interface NumberFieldAction {
+  type: "UPDATE_NUMBER_VALUE";
+  accessor: (state: WizardFormState) => NumberField;
+  newValue: number | null;
+  errors: string[];
+}
+
+interface SelectFieldAction {
+  type: "UPDATE_SELECT_VALUE";
+  accessor: (state: WizardFormState) => SelectField;
+  newValue: { value: string; label: string };
+  errors: string[];
+}
+
+type WizAction = TextFieldAction | NumberFieldAction | SelectFieldAction;
+
+const wizReducer = (state: WizardFormState, action: any): any => {
   switch (action.type) {
+    // FIELD ACTIONS
+    // these actions all update data stored within forms or sub forms
     case "UPDATE_TEXT_VALUE": {
-      const newState = JSON.parse(JSON.stringify(state));
+      const newState: WizardFormState = JSON.parse(JSON.stringify(state));
       const textField = action.accessor(newState);
       textField.value = action.newValue;
       textField.errors = action.errors;
+      return newState;
+    }
+    case "UPDATE_NUMBER_VALUE": {
+      const newState: WizardFormState = JSON.parse(JSON.stringify(state));
+      const numberField = action.accessor(newState);
+      numberField.value = action.newValue;
+      numberField.errors = action.errors;
       return newState;
     }
     case "UPDATE_SELECT_VALUE": {
@@ -15,45 +61,47 @@ const wizReducer = <T>(state: T, action: any): Object => {
       selectField.errors = action.errors;
       return newState;
     }
-    case 'UPDATE_DATE_VALUE': {
+    case "UPDATE_DATE_VALUE": {
       const newState = JSON.parse(JSON.stringify(state));
       let dateField = action.accessor(newState);
       dateField.value = action.newValue;
       dateField.errors = action.errors;
       return newState;
     }
-    case "UDPATE_CHECKBOX_VALUE": {
+    case "UPDATE_BOOLEAN_VALUE": {
       const newState = JSON.parse(JSON.stringify(state));
       let checkboxField = action.accessor(newState);
       checkboxField.value = action.newValue;
       return newState;
     }
-    case "ADD_ARRAY_ELEMENT": {
+    case "ADD_SUB_FORM": {
       const newState = JSON.parse(JSON.stringify(state));
       let array = action.accessor(newState);
       array.push(action.newElement);
       return newState;
     }
-    case "REPLACE_ARRAY_ELEMENT": {
+    case "REMOVE_SUB_FORM": {
+      console.log("in the reducer");
       const newState = JSON.parse(JSON.stringify(state));
-      const index = action.index
-      let array = action.accessor(newState);
-      array[index] = action.newElement;
-      console.log(array)
+      const formId = action.formId;
+      let array = action.arrayAccessor(newState);
+      const index = array.findIndex((element: any) => element.id === formId);
+      array.splice(index, 1);
       return newState;
     }
-    case "DELETE_ARRAY_ELEMENT": {
+    case "REPLACE_SUB_FORM": {
       const newState = JSON.parse(JSON.stringify(state));
-      const array = action.accessor(newState);
-      const elementIndex = array.findIndex((e: any) => e.localId === action.localId);
-      array.splice(elementIndex, 1);
+      const formId = action.formId;
+      let array = action.arrayAccessor(newState);
+      const index = array.findIndex((subForm: any) => subForm.localId === formId);
+      array[index] = action.newElement;
       return newState;
     }
     case "TOGGLE_ERRORS_VISIBLE": {
       const newState = JSON.parse(JSON.stringify(state));
       const field = action.accessor(newState);
-      field.errorsVisible = action.visible
-      return newState
+      field.errorsVisible = action.visible;
+      return newState;
     }
     case "SET_VALUE": {
       const newState = JSON.parse(JSON.stringify(state));

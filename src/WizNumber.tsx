@@ -4,11 +4,11 @@ import NumberFormat from "react-number-format";
 
 import { useWizContext } from "./index";
 import { genNumberField } from "./utils";
-import { Validation } from "./types";
+import { Validation, WizardFormState, NumberField } from "./types";
 
 interface NumberFieldProps {
   label: string;
-  accessor: Function;
+  accessor: (state: WizardFormState) => NumberField;
   min?: number;
   max?: number;
   validations?: Array<Validation>;
@@ -43,7 +43,7 @@ const WizNumber = ({
   autoFocus = false,
   message,
 }: NumberFieldProps) => {
-  const { state, updateWizValue, setProperty, toggleErrorsVisible } =
+  const { state, updateNumberField, setProperty, toggleErrorsVisible } =
     useWizContext();
   const numberField = accessor(state);
   const readOnly = state.readOnly;
@@ -80,7 +80,12 @@ const WizNumber = ({
   // wizText there
   useEffect(() => {
     if (numberField) {
-      updateWizValue(numberField.value, accessor, baseValidations);
+      // updateNumberField(numberField.value, accessor, baseValidations);
+      updateNumberField({
+        newValue: numberField.value ?? 0,
+        accessor,
+        validations: baseValidations,
+      })
     } else if (typeof accessor === "string") {
       setProperty((state: any) => state, accessor, genNumberField());
     } else {
@@ -123,11 +128,18 @@ const WizNumber = ({
         onBlur={() => toggleErrorsVisible(accessor, true)}
         // onKeyPress={onKeyPress}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          updateWizValue(
-            parseFloat(e.target.value.replace(/,/g, "")),
+          // updateWizValue(
+          //   parseFloat(e.target.value.replace(/,/g, "")),
+          //   accessor,
+          //   [...baseValidations, ...validations]
+          // );
+          // postFunc(parseFloat(e.target.value.replace(/,/g, "")));
+          // customFunc(e);
+          updateNumberField({
+            newValue: parseFloat(e.target.value.replace(/,/g, "")),
             accessor,
-            [...baseValidations, ...validations]
-          );
+            validations: [...baseValidations, ...validations],
+          })
           postFunc(parseFloat(e.target.value.replace(/,/g, "")));
           customFunc(e);
         }}
