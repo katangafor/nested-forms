@@ -5,7 +5,7 @@
     "jsx": "react" /* Specify what JSX code is generated. */,
 
     /* Modules */
-    "module": "commonjs" /* Specify what module code is generated. */,
+    "module": "esnext" /* Specify what module code is generated. */,
 
     /* Emit */
     "declaration": true /* Generate .d.ts files from TypeScript and JavaScript files in your project. */,
