@@ -22,6 +22,7 @@ export interface WizTextProps {
   testId?: string;
   customFunc?: Function;
   message?: string;
+  password?: boolean;
 }
 
 const WizText = ({
@@ -38,6 +39,7 @@ const WizText = ({
   link,
   testId = "wiz-text-input",
   message,
+  password = false
 }: WizTextProps) => {
   // an accessor or a name is required to identify the field in form state,
   // but only one of the two is needed
@@ -130,7 +132,6 @@ const WizText = ({
       ) : ( */}
       <>
         <input
-          type="text"
           disabled={disabled || readOnly}
           className={`${showErrors && textField.errorsVisible && "has-error"} ${
             link && "left-padded"
@@ -138,6 +139,7 @@ const WizText = ({
           value={textField?.value ?? ""} // textField could be undefined if the user is creating the value on first render (passing in name without a real default state)
           onChange={onFieldChange}
           data-testid={testId}
+          type={password ? "password" : "text"}
           placeholder={placeholder}
           maxLength={maxLength}
           onBlur={() => toggleErrorsVisible(accessor, true)}
