@@ -30,4 +30,5 @@ export default {
     postcss(),
     terser(),
   ],
+  external: ["react", "react-dom"],
 };
