@@ -1,8 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useWizard, genWizardDefaultState, WizProvider } from "../index";
+import { useWizard, genWizardDefaultState, WizProvider, TextField } from "../index";
 import WizText from "../WizText";
+
+interface FormState {
+  name: TextField;
+  favFruit: TextField;
+}
 
 const SimpleTextFieldForm: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
