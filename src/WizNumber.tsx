@@ -114,6 +114,7 @@ const WizNumber = ({
           </WithTooltip>
         )} */}
       </div>
+      { /* @ts-ignore */ }
       <NumberFormat
         thousandsGroupStyle="thousand"
         decimalSeparator="."

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
+// @ts-ignore
 import TextareaAutosize from "react-textarea-autosize";
 
 import { useWizContext } from "./wizContext";
@@ -64,12 +65,7 @@ const WizTextArea = ({
       <TextareaAutosize
         value={textAreaField.value}
         onBlur={() => toggleErrorsVisible(accessor, true)}
-        onChange={(e) => {
-          // updateWizValue(e.target.value, accessor, [
-          //   ...baseValidations,
-          //   ...validations,
-          // ]);
-          // postFunc(e);
+        onChange={(e: any) => {
           updateTextField({
             newValue: e.target.value,
             accessor,
