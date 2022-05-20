@@ -27,13 +27,17 @@ export default {
     external(),
     resolve(),
     commonjs(),
-    typescript({ tsconfig: "./tsconfig.json" }),
+    typescript(),
     postcss(),
-    terser(),
-    dts()
+    // terser(),
+    // dts(),
   ],
   external: ["react", "react-dom"],
-  output: [{ file: "dist/index.d.ts", format: "es" }],
+  // output: [
+  //   { file: packageJson.main, format: "cjs" },
+  //   { file: packageJson.module, format: "csm" },
+  //   { file: "dist/index.d.ts", format: "es" },
+  // ],
   // input: "./dist/dts/index.d.ts",
   // plugins: [dts()],
 };
