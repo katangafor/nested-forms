@@ -69,6 +69,9 @@ export type WizField =
  * ARGUMENT OBJECTS
  * pass an object of these to genWizardFormState to make a default wizard form state
  **************************/
+
+// yo make a base arg that the others extend from
+
 interface TextFieldArg {
   type: "text";
   value?: string | null | undefined;

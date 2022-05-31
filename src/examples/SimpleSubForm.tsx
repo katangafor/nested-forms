@@ -13,7 +13,6 @@ const SimpleSubForm: React.FC = () => {
       {
         name: { type: "text" },
         age: { type: "number" },
-        // localId: { type: "localId" },
       },
     ],
   });

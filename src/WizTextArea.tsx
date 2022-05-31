@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-// @ts-ignore
-import TextareaAutosize from "react-textarea-autosize";
+// import TextareaAutosize from "react-textarea-autosize";
 
 import { useWizContext } from "./wizContext";
 import { genTextField } from "./utils";
@@ -62,7 +61,7 @@ const WizTextArea = ({
       disabled={disabled || readOnly}
     >
       <label className="wiz-label">{label}</label>
-      <TextareaAutosize
+      {/* <TextareaAutosize
         value={textAreaField.value}
         onBlur={() => toggleErrorsVisible(accessor, true)}
         onChange={(e: any) => {
@@ -75,7 +74,7 @@ const WizTextArea = ({
         disabled={disabled || readOnly}
         className="textarea-autosize"
         minRows={3}
-      />
+      /> */}
       {textAreaField.errorsVisible && (
         <>
           {textAreaField.errors.map((error: string) => {
