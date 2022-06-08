@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import { useWizContext } from "./wizContext";
 import { genTextField } from "./utils";
-import { Validation } from "./types";
+import { Validation } from "./formTypes";
 
 interface WizTextAreaProps {
   label: string;

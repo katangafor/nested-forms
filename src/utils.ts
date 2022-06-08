@@ -8,10 +8,9 @@ import {
   BooleanField,
   NonFieldBoolean,
   resProperty,
-  WizConfig,
-  WizardFormState,
-} from "./types";
+} from "./formTypes";
 import { forceString, forceBoolean } from "./forceData";
+import { FormFields } from "./FormFields";
 
 export const genLocalId = () => {
   return uuid();
@@ -33,7 +32,7 @@ export const genNumberField = (
   defaultNumber: number | null = null
 ): NumberField => {
   return {
-    value: defaultNumber,
+    value: forceNumber(defaultNumber),
     errors: [],
     errorsVisible: false,
     fieldType: "number",
@@ -89,7 +88,7 @@ export const genNonFieldBoolean = (defaultValue = false): NonFieldBoolean => {
     value: defaultValue,
     fieldType: "nonFieldBoolean",
   };
-}
+};
 
 export const genDateField = (
   defaultValue = new Date().getTime()
@@ -198,39 +197,47 @@ export const hasUnsaved = (obj: any) => {
 };
 
 // this is the big tuna right here. Takes WizConfig and returns a WizardFormState
-export const genWizardDefaultState = <T extends WizardFormState>(
-  config: WizConfig
-): T => {
-  const form: WizardFormState = {};
+export const genWizardDefaultState = <T>(config: T): FormFields<T> => {
+  // @ts-ignore
+  const form: FormFields<T> = {};
   form.localId = uuid();
   for (const key in config) {
     const element = config[key];
     if (Array.isArray(element)) {
+      // @ts-ignore
       form[key] = element.map((subConfig) => genWizardDefaultState(subConfig));
     } else {
-      const type = element.type;
+      // @ts-ignore
+      const type = element.fieldType;
       switch (type) {
         case "text":
+          // @ts-ignore
           form[key] = genTextField(forceString(element.value));
           break;
         case "number":
+          // @ts-ignore
           form[key] = genNumberField(forceNumber(element.value));
           break;
         case "select":
+          // @ts-ignore
           form[key] = genSelectField({
+            // @ts-ignore
             label: forceString(element.label),
+            // @ts-ignore
             value: forceString(element.value),
           });
           break;
         case "date":
+          // @ts-ignore
           form[key] = genDateField(forceNumber(element.value));
           break;
         case "boolean":
+          // @ts-ignore
           form[key] = genBooleanField(forceBoolean(element.value));
           break;
         // case "localId":
         //   form[key] = genLocalId();
-          // break;
+        // break;
         default:
           break;
       }
@@ -239,7 +246,7 @@ export const genWizardDefaultState = <T extends WizardFormState>(
   // THIS DOESN'T REALLY HELP, MAYBE KINDA MAKES TYPESCRIPT POINTLESS??
   // maybe the problem is the object starts out empty, and stuff is slowly added to it.
   // idk
-  return form as T;
+  return form;
 };
 
 export const forceNumber = (input: resProperty): number => {

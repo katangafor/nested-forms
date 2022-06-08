@@ -1,4 +1,4 @@
-import { WizardFormState, TextField, NumberField, SelectField } from "./types";
+import { TextField, NumberField, SelectField } from "./formTypes";
 
 // interface WizAction {
 //   case:
@@ -9,45 +9,45 @@ import { WizardFormState, TextField, NumberField, SelectField } from "./types";
 //     | "DELETE_SUB_FORM"
 //     | "REPLACE_SUB_FORM"
 //     | "TOGGLE_ERRORS_VISBLE";
-//   accessor: (state: WizardFormState) => WizField;
+//   accessor: (state: any) => WizField;
 // }
 
 interface TextFieldAction {
   type: "UPDATE_TEXT_VALUE";
-  accessor: (state: WizardFormState) => TextField;
+  accessor: (state: any) => TextField;
   newValue: string;
   errors: string[];
 }
 
 interface NumberFieldAction {
   type: "UPDATE_NUMBER_VALUE";
-  accessor: (state: WizardFormState) => NumberField;
+  accessor: (state: any) => NumberField;
   newValue: number | null;
   errors: string[];
 }
 
 interface SelectFieldAction {
   type: "UPDATE_SELECT_VALUE";
-  accessor: (state: WizardFormState) => SelectField;
+  accessor: (state: any) => SelectField;
   newValue: { value: string; label: string };
   errors: string[];
 }
 
 type WizAction = TextFieldAction | NumberFieldAction | SelectFieldAction;
 
-const wizReducer = (state: WizardFormState, action: any): any => {
+const wizReducer = (state: any, action: any): any => {
   switch (action.type) {
     // FIELD ACTIONS
     // these actions all update data stored within forms or sub forms
     case "UPDATE_TEXT_VALUE": {
-      const newState: WizardFormState = JSON.parse(JSON.stringify(state));
+      const newState: any = JSON.parse(JSON.stringify(state));
       const textField = action.accessor(newState);
       textField.value = action.newValue;
       textField.errors = action.errors;
       return newState;
     }
     case "UPDATE_NUMBER_VALUE": {
-      const newState: WizardFormState = JSON.parse(JSON.stringify(state));
+      const newState: any = JSON.parse(JSON.stringify(state));
       const numberField = action.accessor(newState);
       numberField.value = action.newValue;
       numberField.errors = action.errors;

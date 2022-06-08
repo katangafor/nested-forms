@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import theme from "./theme";
 import { useWizContext } from "./wizContext";
-import { Validation, selectOption } from "./types";
+import { Validation, selectOption } from "./formTypes";
 import { genSelectField } from "./utils";
 // import WithTooltip from "./WithTooltip";
 // import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";

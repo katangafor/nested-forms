@@ -7,15 +7,15 @@ import WizNumber from "../WizNumber";
 
 const SimpleSubForm: React.FC = () => {
   const defaultState = genWizardDefaultState({
-    name: { type: "text" },
-    age: { type: "number" },
+    name: { fieldType: "text", value: 40 },
+    age: { fieldType: "number" },
     friends: [
       {
-        name: { type: "text" },
-        age: { type: "number" },
+        name: { fieldType: "text" },
+        age: { fieldType: "number" },
       },
     ],
-  });
+  } as const);
 
   const wizard = useWizard(defaultState);
 
@@ -24,8 +24,8 @@ const SimpleSubForm: React.FC = () => {
   const addFriend = () => {
     addSubForm({
       config: {
-        name: { type: "text" },
-        age: { type: "number" },
+        name: { fieldType: "text" },
+        age: { fieldType: "number" },
       },
       accessor: (state: any) => state.friends,
     });

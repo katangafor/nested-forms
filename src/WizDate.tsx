@@ -4,8 +4,8 @@ import DatePicker from "react-date-picker";
 import "react-calendar/dist/Calendar.css";
 
 import { useWizContext } from "./wizContext";
-import { Validation } from "./types";
-import { DateField } from "./types";
+import { Validation } from "./formTypes";
+import { DateField } from "./formTypes";
 
 export interface WizDateProps {
   label: string;

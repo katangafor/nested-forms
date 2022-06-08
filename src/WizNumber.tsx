@@ -4,11 +4,11 @@ import NumberFormat from "react-number-format";
 
 import { useWizContext } from "./wizContext";
 import { genNumberField } from "./utils";
-import { Validation, WizardFormState, NumberField } from "./types";
+import { Validation, NumberField } from "./formTypes";
 
 interface NumberFieldProps {
   label: string;
-  accessor: (state: WizardFormState) => NumberField;
+  accessor: (state: any) => NumberField;
   min?: number;
   max?: number;
   validations?: Array<Validation>;

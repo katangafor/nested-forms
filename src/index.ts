@@ -21,11 +21,10 @@ import {
   NumberField,
   SelectField,
   BooleanField,
-  WizField,
   WizConfig,
   WizardProperties,
   resProperty
-} from './types';
+} from './formTypes';
 
 import WizText from "./WizText";
 import WizNumber from "./WizNumber";
@@ -59,7 +58,6 @@ export {
   type NumberField,
   type SelectField,
   type BooleanField,
-  type WizField,
   type WizConfig,
   type WizardProperties,
   type resProperty,

@@ -4,7 +4,7 @@ import styled from "styled-components";
 // import Link from "icon-wrappers/mediaPlanner/Link";
 import { useWizContext } from "./wizContext";
 import { genTextField } from "./utils";
-import { Validation } from "./types";
+import { Validation } from "./formTypes";
 // import WithTooltip from "components/ux/WithTooltip";
 // import { InfoCircle } from "@styled-icons/bootstrap/InfoCircle";
 
@@ -58,7 +58,7 @@ const WizText = ({
     typeof accessor === "string" ? (state: any) => state[accessor] : accessor;
   const { state, updateTextField, setProperty, toggleErrorsVisible } =
     useWizContext();
-  const readOnly = state.readOnly;
+  const readOnly = state?.readOnly ?? false;
   const textField = actualAccessor ? actualAccessor(state) : null;
   if (!textField) {
     throw "No input located by that accessor";

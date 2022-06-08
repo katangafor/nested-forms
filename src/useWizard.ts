@@ -4,7 +4,6 @@ import { useReducer, Reducer } from "react";
 import wizReducer from "./wizReducer";
 import {
   Validation,
-  selectOption,
   WizardProperties,
   WizConfig,
   UpdateTextFieldArgs,
@@ -12,11 +11,10 @@ import {
   UpdateSelectFieldArgs,
   UpdateBooleanFieldArgs,
   UpdateDateFieldArgs,
-  WizardFormState,
-} from "./types";
+} from "./formTypes";
 import { genWizardDefaultState } from "./utils";
 
-const useWizard = (initialState: WizardFormState): WizardProperties => {
+const useWizard = <T>(initialState: T): WizardProperties<T> => {
   const [state, dispatch] = useReducer(wizReducer, initialState);
 
   const updateTextField = ({

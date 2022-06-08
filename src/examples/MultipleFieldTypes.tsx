@@ -14,32 +14,33 @@ import WizCheckbox from "../WizCheckbox";
 
 const MultipleFieldTypes: React.FC = () => {
   const defaultWizState = genWizardDefaultState({
-    name: { type: "text" },
-    numberOfEarlobes: { type: "number" },
-    dateOfEarlobes: { type: "date" },
-    earlobeType: { type: "select" },
-    hasEarlobes: { type: "boolean" },
-  });
+    name: { fieldType: "text" },
+    numberOfEarlobes: { fieldType: "number" },
+    dateOfEarlobes: { fieldType: "date" },
+    earlobeType: { fieldType: "select" },
+    hasEarlobes: { fieldType: "boolean" },
+  } as const);
 
   const wizard = useWizard(defaultWizState);
-  console.log();
+  const state = wizard.state;
+  type state = typeof state;
 
   return (
     <Div>
       <button onClick={() => console.log(wizard.state)}>print wiz state</button>
       <WizProvider value={wizard}>
-        <WizText label="Name" accessor={(state: any) => state.name} />
+        <WizText label="Name" accessor={(state: state) => state.name} />
         <WizNumber
           label="Number of Earlobes"
-          accessor={(state: any) => state.numberOfEarlobes}
+          accessor={(state: state) => state.numberOfEarlobes}
         />
         <WizDate
           label="Date of earlobes"
-          accessor={(state: any) => state.dateOfEarlobes}
+          accessor={(state: state) => state.dateOfEarlobes}
         />
         <WizSelect
           label="Earlobe Type"
-          accessor={(state: any) => state.earlobeType}
+          accessor={(state: state) => state.earlobeType}
           options={[
             { label: "red", value: "red" },
             { label: "blue", value: "blue" },
@@ -47,7 +48,7 @@ const MultipleFieldTypes: React.FC = () => {
         />
         <WizRadioHorizontal
           label="Earlobe Type"
-          accessor={(state: any) => state.earlobeType}
+          accessor={(state: state) => state.earlobeType}
           options={[
             { label: "red", value: "red" },
             { label: "blue", value: "blue" },
@@ -55,7 +56,7 @@ const MultipleFieldTypes: React.FC = () => {
         />
         <WizRadioVertical
           label="Earlobe Type"
-          accessor={(state: any) => state.earlobeType}
+          accessor={(state: state) => state.earlobeType}
           options={[
             { label: "red", value: "red" },
             { label: "blue", value: "blue" },
@@ -64,11 +65,11 @@ const MultipleFieldTypes: React.FC = () => {
         <WizTextArea label="Name" accessor={(state: any) => state.name} />
         <WizToggle
           label="Has earlobes"
-          accessor={(state: any) => state.hasEarlobes}
+          accessor={(state: state) => state.hasEarlobes}
         />
         <WizCheckbox
           label="Has Earlobes"
-          accessor={(state: any) => state.hasEarlobes}
+          accessor={(state: state) => state.hasEarlobes}
         />
       </WizProvider>
     </Div>
